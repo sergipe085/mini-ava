@@ -6,11 +6,16 @@ export class AlunoController {
   private alunosCache: AlunoModel[] | null = null;
   
   // Método para listar alunos
-  public async listarAlunos(nome: string): Promise<AlunoModel[]> {
+  public async listarAlunos(nome: string, curso: string, modalidade: string): Promise<AlunoModel[]> {
     // Se os alunos já estão armazenados no cache, retorna do cache
     if (this.alunosCache) {
+      console.log(nome, curso);
       console.log("Retornando alunos do cache");
-      return this.alunosCache;
+      return this.alunosCache.filter(a => 
+        (!curso || a.curso === curso) && 
+        (!nome || a.nome.toLocaleLowerCase().includes(nome.toLocaleLowerCase())) &&
+        (!modalidade || a.modalidade === modalidade)
+      );
     }
 
     // Se os dados não estão no cache, faz a chamada ao microsserviço

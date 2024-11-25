@@ -5,12 +5,12 @@ export class LivroModel {
     ano: number;
     status: string;
   
-    constructor(id: string, titulo: string, autor: string, ano: number, status: string) {
+    constructor(id: string, titulo: string, autor: string, ano: number) {
       this.id = id;
       this.titulo = titulo;
       this.autor = autor;
       this.ano = ano;
-      this.status = status;
+      this.status = "disponivel";
     }
   
     // Método para buscar todos os livros
@@ -18,7 +18,7 @@ export class LivroModel {
       const res = await fetch('/api/livros');
       const data = await res.json();
       
-      return data.map((item: any) => new LivroModel(item.id, item.titulo, item.autor, item.ano, item.status));
+      return data.map((item: any) => new LivroModel(item.id, item.titulo, item.autor, item.ano));
     }
 }
   

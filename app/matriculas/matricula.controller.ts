@@ -42,10 +42,10 @@ class MatriculaController {
    * @param alunoId - ID do aluno
    * @param disciplinaId - ID da disciplina
    */
-  cancelarMatricula(alunoId: string, disciplinaId: string): void {
+  cancelarMatricula(matriculaId: string): void {
     // Busca a matrícula ativa do aluno na disciplina
     const matricula = this.matriculas.find(
-      (mat) => mat.aluno.id === alunoId && mat.disciplina.id === disciplinaId && mat.estaAtiva()
+      (mat) => mat.id === matriculaId && mat.estaAtiva()
     );
 
     if (!matricula) {

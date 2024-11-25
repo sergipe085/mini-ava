@@ -2,12 +2,14 @@ import { AlunoModel } from "../alunos/aluno.model";
 import { DisciplinaModel } from "../disciplinas/disciplina.model";
 
 export class MatriculaModel {
+  id: string;
   aluno: AlunoModel;
   disciplina: DisciplinaModel;
   realizadaEm: Date | undefined;
   canceladaEm: Date | undefined;
 
   constructor(aluno: AlunoModel, disciplina: DisciplinaModel) {
+    this.id = Date.now().toString();
     this.aluno = aluno;
     this.disciplina = disciplina;
     this.realizadaEm = new Date(); // Define a data de realização como agora

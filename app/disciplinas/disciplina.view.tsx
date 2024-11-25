@@ -8,10 +8,12 @@ class DisciplinaView {
   // Método para renderizar um seletor de disciplinas
   renderSeletor({
     curso,
-    onSelect,
+    disciplinaSelecionada,
+    setDisciplinaSelecionada
   }: {
     curso: string,
-    onSelect: (disciplina: DisciplinaModel) => void,
+    disciplinaSelecionada: DisciplinaModel,
+    setDisciplinaSelecionada: (disciplina: DisciplinaModel) => void,
   }) {
     const [disciplinas, setDisciplinas] = useState<DisciplinaModel[]>([]);
     const [carregando, setCarregando] = useState<boolean>(true);
@@ -40,8 +42,8 @@ class DisciplinaView {
     return (
       <div>
         <Label htmlFor="seletor-disciplinas">Selecione uma disciplina:</Label>
-        <Select onValueChange={(v) => onSelect(disciplinas.find(d => d.id == v))}>
-            <SelectTrigger   id="seletor-disciplinas" className="">
+        <Select value={disciplinaSelecionada?.id} onValueChange={(v) => setDisciplinaSelecionada(disciplinas.find(d => d.id == v))}>
+            <SelectTrigger id="seletor-disciplinas" className="">
                 <SelectValue placeholder="Selecione uma disciplina" />
             </SelectTrigger>
             <SelectContent>
