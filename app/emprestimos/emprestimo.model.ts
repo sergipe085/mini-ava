@@ -6,10 +6,10 @@ export class EmprestimoModel {
   id: string;
   aluno: AlunoModel;
   livro: LivroModel;
-  dataEmprestimo: Date;
-  dataDevolucao: Date | null; // Null se o livro ainda não foi devolvido.
+  de: Date | null; // Null se o livro ainda não foi devolvido.
   realizadaEm: Date | undefined;
   canceladaEm: Date | undefined;
+  devolvidoEm:  Date | undefined;
 
   constructor(
     id: string,
@@ -21,8 +21,6 @@ export class EmprestimoModel {
     this.id = id;
     this.aluno = aluno;
     this.livro = livro;
-    this.dataEmprestimo = dataEmprestimo;
-    this.dataDevolucao = dataDevolucao;
     this.realizadaEm = new Date();
   }
 

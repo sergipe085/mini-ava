@@ -8,9 +8,12 @@ import React, { useState } from 'react';
 type Props = {
     action: () => Promise<void>;
     children: React.ReactNode;
+    variant: "default" | "destructive",
+    title: string | undefined;
+    description: string | undefined;
 };
 
-export function ConfirmationModal({ children, action }: Props) {
+export function ConfirmationModal({ children, action, title, description, variant = "default" }: Props) {
     const [open, setOpen] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -27,12 +30,12 @@ export function ConfirmationModal({ children, action }: Props) {
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Tem certeza que deseja deletar?</DialogTitle>
-                    <DialogDescription>Essa ação não pode ser desfeita.</DialogDescription>
+                    <DialogTitle>{title ?? "Tem certeza que deseja deletar?"}</DialogTitle>
+                    <DialogDescription>{"Essa ação não pode ser desfeita."}</DialogDescription>
                 </DialogHeader>
 
                 <DialogFooter className='flex flex-row gap-2 justify-center'>
-                    <Button onClick={handleAction} disabled={loading} variant={"destructive"}>Deletar</Button>
+                    <Button onClick={handleAction} disabled={loading} variant={variant}>Confirmar</Button>
                     <DialogClose>
                         <Button variant={"outline"} disabled={loading}>Cancelar</Button>
                     </DialogClose>

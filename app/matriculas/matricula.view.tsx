@@ -57,28 +57,32 @@ class MatriculaView {
               <AccordionTrigger className="bg-blue-100 text-blue-600 px-4 py-2 rounded-md">
                 Disciplinas Matriculadas ({matriculas.filter(m => !m.canceladaEm).length})
               </AccordionTrigger>
-              <Dialog>
-                <DialogTrigger className="ml-auto">
-                  <Button variant="ghost" size="icon">
-                    +
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <disciplinaView.renderSeletor
-                    curso={aluno.curso}
-                    disciplinaSelecionada={disciplinaSelecionada}
-                    setDisciplinaSelecionada={setDisciplinaSelecionada}
-                  />
-                  <DialogFooter>
-                    <DialogClose>
-                      <Button onClick={handleAdicionarDisciplina} disabled={!disciplinaSelecionada}>Adicionar</Button>
-                    </DialogClose>
-                    <DialogClose>
-                      <Button variant="outline">Cancelar</Button>
-                    </DialogClose>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
+              {
+                aluno.status == "Ativo" && (
+                  <Dialog>
+                    <DialogTrigger className="ml-auto">
+                      <Button variant="ghost" size="icon">
+                        +
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <disciplinaView.renderSeletor
+                        curso={aluno.curso}
+                        disciplinaSelecionada={disciplinaSelecionada}
+                        setDisciplinaSelecionada={setDisciplinaSelecionada}
+                      />
+                      <DialogFooter>
+                        <DialogClose>
+                          <Button onClick={handleAdicionarDisciplina} disabled={!disciplinaSelecionada}>Adicionar</Button>
+                        </DialogClose>
+                        <DialogClose>
+                          <Button variant="outline">Cancelar</Button>
+                        </DialogClose>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+                )
+              }
             </div>
             <AccordionContent className="p-4 bg-gray-50 rounded-md">
               {matriculas.length > 0 ? (
@@ -90,7 +94,12 @@ class MatriculaView {
                       {matricula.canceladaEm ? (
                         <p className="subtitle">Cancelada em {matricula.canceladaEm.toLocaleString("pt-BR")}</p>
                       ) : (
-                        <ConfirmationModal action={async () => await handleCancelarDisciplina(matricula)}>
+                        <ConfirmationModal 
+                          action={async () => await handleCancelarDisciplina(matricula)}
+                          variant="destructive"
+                          title="Tem certeza que deseja cancelar matricula?"
+                          description=""
+                        >
                           <Button variant="ghost" size="icon">
                             <TrashIcon className="text-red-500" />
                           </Button>

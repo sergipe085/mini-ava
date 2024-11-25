@@ -8,7 +8,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
 import { ConfirmationModal } from "@/components/ui/confirmation-modal";
-import { TrashIcon } from "lucide-react";
+import { ArrowBigDownDashIcon, CheckIcon, TrashIcon } from "lucide-react";
 
 class EmprestimoView {
   render({
@@ -39,6 +39,14 @@ class EmprestimoView {
     const handleCancelarEmprestimo = (emprestimo: EmprestimoModel) => {
       if (emprestimo) {
         emprestimoController.cancelarEmprestimo(emprestimo);
+        const alunoEmprestimos = emprestimoController.listarEmprestimosPorAluno(aluno.id);
+        setEmprestimos(alunoEmprestimos); // Atualiza o estado
+      }
+    };
+
+    const handleDevolverEmprestimo = (emprestimo: EmprestimoModel) => {
+      if (emprestimo) {
+        emprestimoController.finalizarEmprestimo(emprestimo);
         const alunoEmprestimos = emprestimoController.listarEmprestimosPorAluno(aluno.id);
         setEmprestimos(alunoEmprestimos); // Atualiza o estado
       }
@@ -83,17 +91,40 @@ class EmprestimoView {
               {emprestimos.length > 0 ? (
                 <ul>
                   {emprestimos.map((emprestimo) => (
-                    <li key={emprestimo.id} className="mb-2 text-gray-700">
-                      {emprestimo.livro.titulo}
-                      {emprestimo.canceladaEm ? (
-                        <p className="subtitle">Cancelada em {emprestimo.canceladaEm.toLocaleString("pt-BR")}</p>
-                      ) : (
-                        <ConfirmationModal action={async () => await handleCancelarEmprestimo(emprestimo)}>
-                          <Button variant="ghost" size="icon">
-                            <TrashIcon className="text-red-500" />
-                          </Button>
-                        </ConfirmationModal>
-                      )}
+                    <li key={emprestimo.id} className="mb-2 text-gray-700 flex flex-row items-center justify-between">
+                      <h1>{emprestimo.livro.titulo}, {emprestimo.livro.autor}, {emprestimo.livro.ano}</h1>
+                      
+                      <div className="flex flex-row gap-1">
+                        {emprestimo.devolvidoEm ? (
+                          <p className="subtitle">Devolvido / finalizado em {emprestimo.devolvidoEm.toLocaleString("pt-BR")}</p>
+                        ) : (
+                          <ConfirmationModal 
+                            action={async () => await handleDevolverEmprestimo(emprestimo)}
+                            title="Tem certeza que deseja finalizar o emprestimo?"
+                            variant="default"
+                            description=""
+                          >
+                            <Button variant="ghost" size="icon">
+                              <CheckIcon className="text-green-500" />
+                            </Button>
+                          </ConfirmationModal>
+                        )}
+
+                        {emprestimo.canceladaEm ? (
+                          <p className="subtitle">Cancelada em {emprestimo.canceladaEm.toLocaleString("pt-BR")}</p>
+                        ) : (
+                          <ConfirmationModal 
+                            action={async () => await handleCancelarEmprestimo(emprestimo)}
+                            title="Tem certeza que deseja cancelar o emprestimo?"
+                            variant="destructive"
+                            description=""
+                          >
+                            <Button variant="ghost" size="icon">
+                              <TrashIcon className="text-red-500" />
+                            </Button>
+                          </ConfirmationModal>
+                        )}
+                      </div>
                     </li>
                   ))}
                 </ul>

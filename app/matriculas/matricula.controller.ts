@@ -13,6 +13,10 @@ class MatriculaController {
    * @returns {MatriculaModel} - A matrícula realizada
    */
   realizarMatricula(aluno: AlunoModel, disciplina: DisciplinaModel): MatriculaModel {
+    if (aluno.status != "Ativo") {
+      throw new Error(`O aluno nao esta ativo.`)
+    }
+
     // Verifica se o aluno já está matriculado na disciplina
     const existente = this.matriculas.find(
       (matricula) => matricula.aluno.id === aluno.id && matricula.disciplina.id === disciplina.id && matricula.estaAtiva()
