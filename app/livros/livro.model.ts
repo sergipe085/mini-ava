@@ -20,5 +20,13 @@ export class LivroModel {
       
       return data.map((item: any) => new LivroModel(item.id, item.titulo, item.autor, item.ano));
     }
+
+    emprestar() {
+      this.status = "emprestado"
+    }
+
+    estaDisponivel() {
+      return this.status == "disponivel"
+    }
 }
   

@@ -7,14 +7,6 @@ class MatriculaController {
   private matriculas: MatriculaModel[] = [];
 
   realizarMatricula(aluno: AlunoModel, disciplina: DisciplinaModel): MatriculaModel {
-    if (aluno.status != "Ativo") {
-      throw new Error(`O aluno nao esta ativo.`)
-    }
-
-    if (aluno.modalidade != "Presencial") {
-      throw new Error(`O aluno nao esta inscrito na modalidade Presencial.`)
-    }
-
     // Verifica se o aluno já está matriculado na disciplina
     const existente = this.matriculas.find(
       (matricula) => matricula.aluno.id === aluno.id && matricula.disciplina.id === disciplina.id && matricula.estaAtiva()

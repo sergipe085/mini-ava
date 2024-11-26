@@ -9,6 +9,14 @@ export class MatriculaModel {
   canceladaEm: Date | undefined;
 
   constructor(aluno: AlunoModel, disciplina: DisciplinaModel) {
+    if (aluno.status != "Ativo") {
+      throw new Error(`O aluno nao esta ativo.`)
+    }
+
+    if (aluno.modalidade != "Presencial") {
+      throw new Error(`O aluno nao esta inscrito na modalidade Presencial.`)
+    }
+
     this.id = Date.now().toString();
     this.aluno = aluno;
     this.disciplina = disciplina;
@@ -16,17 +24,10 @@ export class MatriculaModel {
     this.canceladaEm = undefined;
   }
 
-  /**
-   * Verifica se a matrícula está ativa
-   * @returns {boolean} - True se a matrícula está ativa, false caso contrário
-   */
   estaAtiva(): boolean {
     return !this.canceladaEm; // Está ativa se `canceladaEm` for undefined
   }
 
-  /**
-   * Cancela a matrícula, definindo a data de cancelamento
-   */
   cancelar(): void {
     if (!this.estaAtiva()) {
       throw new Error("Matrícula já está cancelada.");
@@ -34,9 +35,6 @@ export class MatriculaModel {
     this.canceladaEm = new Date(); // Define a data de cancelamento como agora
   }
 
-  /**
-   * Reativa a matrícula caso tenha sido cancelada
-   */
   reativar(): void {
     if (this.estaAtiva()) {
       throw new Error("Matrícula já está ativa.");
@@ -44,10 +42,6 @@ export class MatriculaModel {
     this.canceladaEm = undefined; // Remove a data de cancelamento
   }
 
-  /**
-   * Obtém informações resumidas da matrícula
-   * @returns {string} - Resumo da matrícula
-   */
   obterResumo(): string {
     return `
       Aluno: ${this.aluno.nome}

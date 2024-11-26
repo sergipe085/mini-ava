@@ -7,14 +7,6 @@ class EmprestimoController {
 
   // Realizar empréstimo de um livro para um aluno
   realizarEmprestimo(aluno: AlunoModel, livro: LivroModel): EmprestimoModel {
-    if (livro.status !== "disponivel") {
-      throw new Error("O livro não está disponível para empréstimo.");
-    }
-
-    if (!aluno.estaAtivo()) {
-      throw new Error("O aluno nao esta ativo.");
-    }
-
     const novoEmprestimo = new EmprestimoModel(
       (this.emprestimos.length + 1).toString(), // Gerando ID sequencial para o empréstimo
       aluno,
@@ -22,10 +14,6 @@ class EmprestimoController {
       new Date(), // Data atual como data de empréstimo
       null // Ainda sem data de devolução
     );
-
-    // Atualiza o status do livro
-    livro.status = "emprestado";
-
     // Adiciona o novo empréstimo à lista
     this.emprestimos.push(novoEmprestimo);
     return novoEmprestimo;

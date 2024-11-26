@@ -18,10 +18,20 @@ export class EmprestimoModel {
     dataEmprestimo: Date,
     dataDevolucao: Date | null
   ) {
+    if (livro.status !== "disponivel") {
+      throw new Error("O livro não está disponível para empréstimo.");
+    }
+
+    if (!aluno.estaAtivo()) {
+      throw new Error("O aluno nao esta ativo.");
+    }
+
     this.id = id;
     this.aluno = aluno;
     this.livro = livro;
     this.realizadaEm = new Date();
+
+    livro.emprestar();
   }
 
   /**
