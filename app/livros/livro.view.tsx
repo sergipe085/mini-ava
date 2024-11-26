@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import livroController from "./livro.controller";
 
 class LivroView {
   // Método para renderizar um seletor de livros
@@ -28,7 +29,7 @@ class LivroView {
       const carregarLivros = async () => {
         try {
           setCarregando(true);
-          const lista = await LivroModel.buscarTodos();
+          const lista = await livroController.listarTodos();
           setLivros(lista);
         } catch (error) {
           console.error("Erro ao carregar livros:", error);

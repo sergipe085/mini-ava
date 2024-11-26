@@ -1,11 +1,17 @@
 import { DisciplinaModel } from "./disciplina.model";
 
 class DisciplinaController {
+  private disciplinaCache: DisciplinaModel[] | null = null;
+
   // Método para buscar disciplinas de um curso específico
   public async buscarPorCurso(curso: string): Promise<DisciplinaModel[]> {
     try {
       // Chamando o método estático no model para buscar as disciplinas
-      const disciplinas = await DisciplinaModel.buscarTodas();
+      let disciplinas = []
+      if (!this.disciplinaCache) {
+        this.disciplinaCache = await DisciplinaModel.buscarTodas();
+      }
+      disciplinas = this.disciplinaCache;
       
       // Filtrando as disciplinas pelo curso
       return disciplinas.filter(
