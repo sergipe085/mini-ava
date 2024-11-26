@@ -59,8 +59,8 @@ class LivroView {
             <SelectGroup>
               <SelectLabel>Livros</SelectLabel>
               {livros.map((livro) => (
-                <SelectItem key={livro.id} value={livro.id}>
-                  {livro.titulo}
+                <SelectItem key={livro.id} value={livro.id} disabled={!livro.estaDisponivel()}>
+                  {livro.titulo} {!livro.estaDisponivel() ? " (Indisponível)" : ""}
                 </SelectItem>
               ))}
             </SelectGroup>
