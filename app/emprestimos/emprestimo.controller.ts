@@ -11,6 +11,10 @@ class EmprestimoController {
       throw new Error("O livro não está disponível para empréstimo.");
     }
 
+    if (!aluno.estaAtivo()) {
+      throw new Error("O aluno nao esta ativo.");
+    }
+
     const novoEmprestimo = new EmprestimoModel(
       (this.emprestimos.length + 1).toString(), // Gerando ID sequencial para o empréstimo
       aluno,

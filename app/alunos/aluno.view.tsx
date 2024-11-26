@@ -54,6 +54,7 @@ class AlunoView {
                 <TableHead>Nome</TableHead>
                 <TableHead>Curso</TableHead>
                 <TableHead>Modalidade</TableHead>
+                <TableHead>Status</TableHead>
             </TableHeader>
             <TableBody>
                 {alunos.map((aluno) => (
@@ -63,6 +64,7 @@ class AlunoView {
                                 <TableCell>{aluno.nome}</TableCell>
                                 <TableCell>{aluno.curso}</TableCell>
                                 <TableCell>{aluno.modalidade}</TableCell>
+                                <TableCell>{aluno.status}</TableCell>
                             </TableRow>
                         </DialogTrigger>
                         <DialogContent>

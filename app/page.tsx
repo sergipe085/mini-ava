@@ -33,6 +33,26 @@ const AlunosPage: React.FC = ({ searchParams }: any) => {
     carregarAlunos();
   }, [searchParams.curso, searchParams.modalidade, nomeFiltro])
 
+  useEffect(() => {
+    const handleGlobalError = (event: ErrorEvent) => {
+      console.error('Erro global:', event.message);
+      alert('Erro detectado: ' + event.message);
+    };
+  
+    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
+      console.error('Rejeição não tratada:', event.reason);
+      alert('Erro de promessa não tratada!');
+    };
+  
+    window.addEventListener('error', handleGlobalError);
+    window.addEventListener('unhandledrejection', handleUnhandledRejection);
+  
+    return () => {
+      window.removeEventListener('error', handleGlobalError);
+      window.removeEventListener('unhandledrejection', handleUnhandledRejection);
+    };
+  }, []);
+
   return (
     <main className="max-w-[1200px] w-full flex flex-col">
       <h1>Consulta de Alunos</h1>

@@ -15,10 +15,14 @@ export class AlunoModel {
       this.modalidade = modalidade;
       this.status = status;
     }
+
+    estaAtivo() {
+      return this.status == "Ativo";
+    }
   
     // Método estático para buscar todos os alunos
     static async buscarTodos(): Promise<AlunoModel[]> {
-      const res = await fetch(`http://localhost:3000/api/alunos`);
+      const res = await fetch(`/api/alunos`);
       const data = await res.json();
       
       // Retorna um array de instâncias da classe Aluno
