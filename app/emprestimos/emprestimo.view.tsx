@@ -65,27 +65,31 @@ class EmprestimoView {
               <AccordionTrigger className="bg-green-100 text-green-600 px-4 py-2 rounded-md">
                 Livros Emprestados ({emprestimos.length})
               </AccordionTrigger>
-              <Dialog>
-                <DialogTrigger className="ml-auto">
-                  <Button variant="ghost" size="icon">
-                    +
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <LivroView.renderSeletor
-                    livroSelecionado={livroSelecionado}
-                    setLivroSelecionado={setLivroSelecionado}
-                  />
-                  <DialogFooter>
-                    <DialogClose>
-                      <Button onClick={handleAdicionarEmprestimo} disabled={!livroSelecionado}>Adicionar</Button>
-                    </DialogClose>
-                    <DialogClose>
-                      <Button variant="outline">Cancelar</Button>
-                    </DialogClose>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
+              {
+                aluno.estaAtivo() && (
+                  <Dialog>
+                    <DialogTrigger className="ml-auto">
+                      <Button variant="ghost" size="icon">
+                        +
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <LivroView.renderSeletor
+                        livroSelecionado={livroSelecionado}
+                        setLivroSelecionado={setLivroSelecionado}
+                      />
+                      <DialogFooter>
+                        <DialogClose>
+                          <Button onClick={handleAdicionarEmprestimo} disabled={!livroSelecionado}>Adicionar</Button>
+                        </DialogClose>
+                        <DialogClose>
+                          <Button variant="outline">Cancelar</Button>
+                        </DialogClose>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+                )
+              }
             </div>
             <AccordionContent className="p-4 bg-gray-50 rounded-md">
               {emprestimos.length > 0 ? (
@@ -95,35 +99,46 @@ class EmprestimoView {
                       <h1>{emprestimo.livro.titulo}, {emprestimo.livro.autor}, {emprestimo.livro.ano}</h1>
                       
                       <div className="flex flex-row gap-1">
-                        {emprestimo.devolvidoEm ? (
-                          <p className="subtitle">Devolvido / finalizado em {emprestimo.devolvidoEm.toLocaleString("pt-BR")}</p>
-                        ) : (
-                          <ConfirmationModal 
-                            action={async () => await handleDevolverEmprestimo(emprestimo)}
-                            title="Tem certeza que deseja finalizar o emprestimo?"
-                            variant="default"
-                            description=""
-                          >
-                            <Button variant="ghost" size="icon">
-                              <CheckIcon className="text-green-500" />
-                            </Button>
-                          </ConfirmationModal>
-                        )}
-
-                        {emprestimo.canceladaEm ? (
-                          <p className="subtitle">Cancelada em {emprestimo.canceladaEm.toLocaleString("pt-BR")}</p>
-                        ) : (
-                          <ConfirmationModal 
-                            action={async () => await handleCancelarEmprestimo(emprestimo)}
-                            title="Tem certeza que deseja cancelar o emprestimo?"
-                            variant="destructive"
-                            description=""
-                          >
-                            <Button variant="ghost" size="icon">
-                              <TrashIcon className="text-red-500" />
-                            </Button>
-                          </ConfirmationModal>
-                        )}
+                        {
+                          !emprestimo.canceladaEm && (
+                            <>
+                              {emprestimo.devolvidoEm ? (
+                                <p className="subtitle">Devolvido / finalizado em {emprestimo.devolvidoEm.toLocaleString("pt-BR")}</p>
+                              ) : (
+                                <ConfirmationModal 
+                                  action={async () => await handleDevolverEmprestimo(emprestimo)}
+                                  title="Tem certeza que deseja finalizar o emprestimo?"
+                                  variant="default"
+                                  description=""
+                                >
+                                  <Button variant="ghost" size="icon">
+                                    <CheckIcon className="text-green-500" />
+                                  </Button>
+                                </ConfirmationModal>
+                              )}
+                            </>
+                          )
+                        }
+                        {
+                          !emprestimo.devolvidoEm && (
+                            <>
+                              {emprestimo.canceladaEm ? (
+                                <p className="subtitle">Cancelada em {emprestimo.canceladaEm.toLocaleString("pt-BR")}</p>
+                              ) : (
+                                <ConfirmationModal 
+                                  action={async () => await handleCancelarEmprestimo(emprestimo)}
+                                  title="Tem certeza que deseja cancelar o emprestimo?"
+                                  variant="destructive"
+                                  description=""
+                                >
+                                  <Button variant="ghost" size="icon">
+                                    <TrashIcon className="text-red-500" />
+                                  </Button>
+                                </ConfirmationModal>
+                              )}
+                            </>
+                          )
+                        }
                       </div>
                     </li>
                   ))}

@@ -58,7 +58,7 @@ class MatriculaView {
                 Disciplinas Matriculadas ({matriculas.filter(m => !m.canceladaEm).length})
               </AccordionTrigger>
               {
-                aluno.status == "Ativo" && (
+                aluno.estaAtivo() && aluno.modalidade == "Presencial" && (
                   <Dialog>
                     <DialogTrigger className="ml-auto">
                       <Button variant="ghost" size="icon">

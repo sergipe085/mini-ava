@@ -26,7 +26,7 @@ class AlunoView {
     onFiltrar: () => void
   ) {
     return (
-      <div className="flex flex-row">
+      <div className="flex flex-row gap-2 w-full">
         <Input
             type="text"
             placeholder="Pesquisar por nome"
@@ -45,7 +45,7 @@ class AlunoView {
     alunos: AlunoModel[],
   ) {
     return (
-      <div>
+      <div className="w-full">
         <h2>Lista de Alunos</h2>
         
         {true ? (

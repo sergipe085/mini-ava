@@ -6,15 +6,13 @@ class MatriculaController {
   // Armazena todas as matrículas em memória
   private matriculas: MatriculaModel[] = [];
 
-  /**
-   * Realiza a matrícula de um aluno em uma disciplina.
-   * @param aluno - Instância de AlunoModel
-   * @param disciplina - Instância de DisciplinaModel
-   * @returns {MatriculaModel} - A matrícula realizada
-   */
   realizarMatricula(aluno: AlunoModel, disciplina: DisciplinaModel): MatriculaModel {
     if (aluno.status != "Ativo") {
       throw new Error(`O aluno nao esta ativo.`)
+    }
+
+    if (aluno.modalidade != "Presencial") {
+      throw new Error(`O aluno nao esta inscrito na modalidade Presencial.`)
     }
 
     // Verifica se o aluno já está matriculado na disciplina
@@ -32,20 +30,10 @@ class MatriculaController {
     return novaMatricula;
   }
 
-  /**
-   * Lista todas as matrículas de um aluno.
-   * @param alunoId - ID do aluno
-   * @returns {MatriculaModel[]} - Lista de matrículas do aluno
-   */
   listarMatriculasPorAluno(alunoId: string): MatriculaModel[] {
     return this.matriculas.filter((matricula) => matricula.aluno.id === alunoId);
   }
 
-  /**
-   * Cancela uma matrícula ativa.
-   * @param alunoId - ID do aluno
-   * @param disciplinaId - ID da disciplina
-   */
   cancelarMatricula(matriculaId: string): void {
     // Busca a matrícula ativa do aluno na disciplina
     const matricula = this.matriculas.find(
